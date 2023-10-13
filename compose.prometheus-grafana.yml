@@ -1,0 +1,35 @@
+# Inspired by https://github.com/docker/awesome-compose/blob/master/prometheus-grafana/compose.yaml
+
+secrets:
+  grafana-admin-password:
+    file: ./secrets/prometheus-grafana/grafana-admin-password.secret
+
+services:
+  prometheus:
+    image: prom/prometheus
+    container_name: prometheus
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+    ports:
+      - 9090:9090
+    restart: unless-stopped
+    volumes:
+      - ./prometheus-grafana/prometheus:/etc/prometheus
+      - prom_data:/prometheus
+  grafana:
+    image: grafana/grafana
+    container_name: grafana
+    ports:
+      - 3000:3000
+    restart: unless-stopped
+    environment:
+      - GF_SECURITY_ADMIN_USER=admin
+      - GF_SECURITY_ADMIN_PASSWORD__FILE=/run/secrets/grafana-admin-password
+    secrets:
+      - grafana-admin-password
+
+    volumes:
+      - ./prometheus-grafana/grafana:/etc/grafana/provisioning/datasources
+
+volumes:
+  prom_data:
