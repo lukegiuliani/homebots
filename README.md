@@ -5,6 +5,18 @@ README.md
 * Duplicate all the files in the `/secrets/` tree with files ending with `.secret` instead of `.txt` with the appropriate secret. 
 * Duplicate `.env.example` to `.env`, replacing vars as needed
 
+Start it: 
+
+```bash
+docker-compose -f compose.yml -f compose.prometheus-grafana.yml -f compose.node-exporter.yml -f compose.tailscale.yml -f compose.traefik.yml -f compose.unifi-poller.yml --env-file .env --env-file unifi-poller.env up -d
+```
+
+Restart it:
+
+```bash
+docker-compose -f compose.yml -f compose.prometheus-grafana.yml -f compose.node-exporter.yml -f compose.tailscale.yml -f compose.traefik.yml -f compose.unifi-poller.yml down --remove-orphans && docker-compose -f compose.yml -f compose.prometheus-grafana.yml -f compose.node-exporter.yml -f compose.tailscale.yml -f compose.traefik.yml -f compose.unifi-poller.yml --env-file .env --env-file unifi-poller.env up -d
+```
+
 # Approach
 
 So the approach we are taking is multiple compose files by chunk, and then starting it all up [with the merge command](https://docs.docker.com/compose/multiple-compose-files/merge/). Then we can add new services easily enough. For example:
