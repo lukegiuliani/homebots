@@ -1,5 +1,10 @@
 README.md
 
+# Getting started TL;DR:
+
+* Duplicate all the files in the `/secrets/` tree with files ending with `.secret` instead of `.txt` with the appropriate secret. 
+* Duplicate `.env.example` to `.env`, replacing vars as needed
+
 # Approach
 
 So the approach we are taking is multiple compose files by chunk, and then starting it all up [with the merge command](https://docs.docker.com/compose/multiple-compose-files/merge/). Then we can add new services easily enough. For example:
@@ -38,3 +43,7 @@ Based of (this awesome source)[https://github.com/docker/awesome-compose/blob/ma
 ### Importing dashboards
 
 The easiest way to do this is to import them from inside grafana, configure them how you like, then go and copy the resulting json to a {template}.json file in `prometheus-grafana/grafana/provisioning/dashboards`
+
+## Tailscale
+
+This needs testing on a proper linux machine. Hard to see on a mac

@@ -30,5 +30,10 @@ services:
     volumes:
       - ./prometheus-grafana/grafana/provisioning:/etc/grafana/provisioning
 
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.grafana.rule=Host(`grafana.${HOSTNAME}`)"
+      - "traefik.http.routers.grafana.entrypoints=web"
+
 volumes:
   prom_data:
