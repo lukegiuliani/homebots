@@ -1,0 +1,19 @@
+
+services:
+  unifi-poller:
+    container_name: unifi-poller
+    hostname: 'unifi-poller'
+    restart: unless-stopped
+    image: golift/unifi-poller:latest
+    expose:
+      - 9130
+    ports:
+      - 9130:9130
+    environment:
+    # The documentation on these vars isn't great. The best example can be found at
+    # https://github.com/unpoller/unpoller/blob/51d0b2109ffe455c8ed2ef711e1a9ae46a6c15c7/init/docker/docker-compose.yml
+      UP_INFLUXDB_DISABLE: 'true'
+      UP_UNIFI_DEFAULT_SAVE_DPI: 'true'
+      UP_UNIFI_DEFAULT_USER: ${UNIFI_DEFAULT_USER}
+      UP_UNIFI_DEFAULT_PASS: ${UNIFI_DEFAULT_PASS}
+      UP_UNIFI_DEFAULT_URL: ${UNIFI_DEFAULT_URL}
