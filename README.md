@@ -16,8 +16,8 @@ The structure is that all the `compose.yml`s exist in the root folder (because o
     compose.pihole.yml
     compose.prometheus-grafana.yml
     prometheus-grafana/
-        prometheus
-        grafana
+        prometheus/
+        grafana/
     pihole/
         .env
         pihole.conf
@@ -33,7 +33,8 @@ TODO: A convenience script to help with this?
 
 ## Prometheus / Grafana
 
-Based of (this awesome source)[https://github.com/docker/awesome-compose/blob/master/prometheus-grafana/compose.yaml]. 
+Based of (this awesome source)[https://github.com/docker/awesome-compose/blob/master/prometheus-grafana/compose.yaml], modified to use docker secrets and tailscale for grafana. 
 
-TODO: Figure out how to import dashboards automatically: https://grafana.com/docs/grafana/latest/administration/provisioning/#dashboards
+### Importing dashboards
 
+The easiest way to do this is to import them from inside grafana, configure them how you like, then go and copy the resulting json to a {template}.json file in `prometheus-grafana/grafana/provisioning/dashboards`

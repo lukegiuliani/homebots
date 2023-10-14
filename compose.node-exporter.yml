@@ -1,0 +1,23 @@
+# Inspired by https://github.com/prometheus/node_exporter standard doco
+
+services:
+  local-node-exporter:
+    image: quay.io/prometheus/node-exporter:latest
+    container_name: local-node-exporter
+    command:
+      - '--path.procfs=/host/proc'
+      - '--path.sysfs=/host/sys'
+      - --collector.filesystem.ignored-mount-points
+      - "^/(sys|proc|dev|host|etc|rootfs/var/lib/docker/containers|rootfs/var/lib/docker/overlay2|rootfs/run/docker/netns|rootfs/var/lib/docker/aufs)($$|/)"
+      - '--path.rootfs=/host'
+    # network_mode: host
+    privileged: true
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - /proc:/host/proc:ro
+      - /sys:/host/sys:ro
+      - /:/host:ro,rslave
+    ports:
+      - 9100:9100
+    pid: host
+    restart: unless-stopped

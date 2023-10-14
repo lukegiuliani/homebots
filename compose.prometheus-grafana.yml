@@ -27,9 +27,8 @@ services:
       - GF_SECURITY_ADMIN_PASSWORD__FILE=/run/secrets/grafana-admin-password
     secrets:
       - grafana-admin-password
-
     volumes:
-      - ./prometheus-grafana/grafana:/etc/grafana/provisioning/datasources
+      - ./prometheus-grafana/grafana/provisioning:/etc/grafana/provisioning
 
 volumes:
   prom_data:
