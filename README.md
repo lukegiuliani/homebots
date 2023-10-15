@@ -8,13 +8,13 @@ README.md
 Start it: 
 
 ```bash
-docker-compose -f compose.yml -f compose.prometheus-grafana.yml -f compose.node-exporter.yml -f compose.tailscale.yml -f compose.traefik.yml -f compose.unifi-poller.yml --env-file .env --env-file unifi-poller.env up -d
+docker compose -f compose.yml -f compose.prometheus-grafana.yml -f compose.node-exporter.yml -f compose.tailscale.yml -f compose.traefik.yml -f compose.unifi-poller.yml -f compose.pihole.yml --env-file .env --env-file unifi-poller.env --env-file pihole.env up -d
 ```
 
 Restart it:
 
 ```bash
-docker-compose -f compose.yml -f compose.prometheus-grafana.yml -f compose.node-exporter.yml -f compose.tailscale.yml -f compose.traefik.yml -f compose.unifi-poller.yml down --remove-orphans && docker-compose -f compose.yml -f compose.prometheus-grafana.yml -f compose.node-exporter.yml -f compose.tailscale.yml -f compose.traefik.yml -f compose.unifi-poller.yml --env-file .env --env-file unifi-poller.env up -d
+docker compose -f compose.yml -f compose.prometheus-grafana.yml -f compose.node-exporter.yml -f compose.tailscale.yml -f compose.traefik.yml -f compose.unifi-poller.yml -f compose.pihole.yml --env-file .env --env-file unifi-poller.env --env-file pihole.env down --remove-orphans && docker compose -f compose.yml -f compose.prometheus-grafana.yml -f compose.node-exporter.yml -f compose.tailscale.yml -f compose.traefik.yml -f compose.unifi-poller.yml -f compose.pihole.yml --env-file .env --env-file unifi-poller.env --env-file pihole.env up -d
 ```
 
 # Approach

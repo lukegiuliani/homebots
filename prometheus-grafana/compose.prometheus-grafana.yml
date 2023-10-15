@@ -2,7 +2,7 @@
 
 secrets:
   grafana-admin-password:
-    file: ./secrets/prometheus-grafana/grafana-admin-password.secret
+    file: ./secrets/grafana-admin-password.secret
 
 services:
   prometheus:
@@ -14,7 +14,7 @@ services:
       - 9090:9090
     restart: unless-stopped
     volumes:
-      - ./prometheus-grafana/prometheus:/etc/prometheus
+      - ./prometheus:/etc/prometheus
       - prom_data:/prometheus
   grafana:
     image: grafana/grafana
@@ -28,7 +28,7 @@ services:
     secrets:
       - grafana-admin-password
     volumes:
-      - ./prometheus-grafana/grafana/provisioning:/etc/grafana/provisioning
+      - ./grafana/provisioning:/etc/grafana/provisioning
 
     labels:
       - "traefik.enable=true"

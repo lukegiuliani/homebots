@@ -2,3 +2,11 @@
 # At the moment it's empty as we don't have any shared config lol
 
 name: homebots
+
+include:
+  - ./traefik/compose.traefik.yml
+  - ./prometheus-grafana/compose.prometheus-grafana.yml
+  - ./node-exporter/compose.node-exporter.yml
+  - ./unifi-poller/compose.unifi-poller.yml
+  - ./tailscale/compose.tailscale.yml
+  - ./pihole/compose.pihole.yml
