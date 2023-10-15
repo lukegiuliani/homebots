@@ -6,12 +6,13 @@
       volumes: 
         - ./tailscale:/var/lib # State data will be stored in this directory 
         - /dev/net/tun:/dev/net/tun # Required for tailscale to work 
+      network_mode: host
+
       cap_add: # Required for tailscale to work 
         - net_admin 
         - sys_module 
-      command: tailscaled 
       environment:
+        - TS_STATE_DIR=/var/lib/tailscale
         - TS_AUTHKEY=${TS_AUTHKEY}
         - TS_EXTRA_ARGS=--advertise-exit-node
-      privileged: true 
       restart: unless-stopped
