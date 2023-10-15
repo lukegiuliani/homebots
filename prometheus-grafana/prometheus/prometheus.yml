@@ -10,6 +10,9 @@ alerting:
     timeout: 10s
     api_version: v1
 
+
+# We just include all of the possible scrape candidates here. 
+# If the particular set up doesn't use them, they'll just fail. So sad. 
 scrape_configs:
 - job_name: prometheus
   honor_timestamps: true
@@ -29,4 +32,7 @@ scrape_configs:
   scrape_interval: 30s
   static_configs:
   - targets: ['unifi-poller:9130']
-  
+
+- job_name: 'pihole'
+  static_configs:
+    - targets: ['pihole-exporter:9617']

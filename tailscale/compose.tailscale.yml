@@ -1,7 +1,7 @@
   services:
     tailscale: 
       container_name: tailscale 
-      hostname: tailscale-homebots
+      hostname: tailscale-${HOSTNAME}
       image: tailscale/tailscale:stable 
       volumes: 
         - ./tailscale:/var/lib # State data will be stored in this directory 
@@ -15,4 +15,5 @@
         - TS_STATE_DIR=/var/lib/tailscale
         - TS_AUTHKEY=${TS_AUTHKEY}
         - TS_EXTRA_ARGS=--advertise-exit-node
+        - TS_HOSTNAME=${HOSTNAME}
       restart: unless-stopped
