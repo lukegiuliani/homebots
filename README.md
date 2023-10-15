@@ -46,4 +46,10 @@ The easiest way to do this is to import them from inside grafana, configure them
 
 ## Tailscale
 
-This needs testing on a proper linux machine. Hard to see on a mac
+This needs testing on a proper linux machine. Hard to see on a mac.
+
+A few things.
+
+* The docker compose files floating around the internet aren't great. Best to migrate from the official doco's command to compose using https://www.composerize.com/ or similar. 
+* If you remove a machine or expire a key, and you are using persistent storage, you need to kill the state as well as replace the key for it to work. Otherwise (I'm guessing) it conflicts between the fact that the state files were made with an old key, and you're now trying to use a new one. 
+* Incidentally, wiping the state folder is also the best way to get rid of the incrementing suffixes problem if you keep cycling for some reason. 
