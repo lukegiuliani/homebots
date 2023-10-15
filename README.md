@@ -5,24 +5,12 @@ README.md
 * Duplicate all the files in the `/secrets/` tree with files ending with `.secret` instead of `.txt` with the appropriate secret. 
 * Duplicate `.env.example` to `.env`, replacing vars as needed
 
-Start it: 
-
-```bash
-docker compose -f compose.yml -f compose.prometheus-grafana.yml -f compose.node-exporter.yml -f compose.tailscale.yml -f compose.traefik.yml -f compose.unifi-poller.yml -f compose.pihole.yml --env-file .env --env-file unifi-poller.env --env-file pihole.env up -d
-```
-
-Restart it:
-
-```bash
-docker compose -f compose.yml -f compose.prometheus-grafana.yml -f compose.node-exporter.yml -f compose.tailscale.yml -f compose.traefik.yml -f compose.unifi-poller.yml -f compose.pihole.yml --env-file .env --env-file unifi-poller.env --env-file pihole.env down --remove-orphans && docker compose -f compose.yml -f compose.prometheus-grafana.yml -f compose.node-exporter.yml -f compose.tailscale.yml -f compose.traefik.yml -f compose.unifi-poller.yml -f compose.pihole.yml --env-file .env --env-file unifi-poller.env --env-file pihole.env up -d
-```
-
 # Approach
 
-So the approach we are taking is multiple compose files by chunk, and then starting it all up [with the merge command](https://docs.docker.com/compose/multiple-compose-files/merge/). Then we can add new services easily enough. For example:
+So the approach we are taking is multiple compose files by chunk, and then starting it all by creating `compose.yml` variants that have the services we want. For example:
 
 ```bash
-$ docker compose -f compose.yml -f compose.prometheus-grafana.yml up -d
+$ docker compose -f compose.all.yml up -d
 ```
 
 The structure is that all the `compose.yml`s exist in the root folder (because of the relative file reference constraint of merge), with config all housed in project folders. For example:
@@ -30,12 +18,12 @@ The structure is that all the `compose.yml`s exist in the root folder (because o
 ```
 /
     compose.yml
-    compose.pihole.yml
-    compose.prometheus-grafana.yml
     prometheus-grafana/
+        compose.prometheus-grafana.yml
         prometheus/
         grafana/
     pihole/
+        compose.pihole.yml
         .env
         pihole.conf
 ```
