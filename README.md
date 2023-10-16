@@ -2,8 +2,10 @@ README.md
 
 # Getting started TL;DR:
 
-* Duplicate all the files in the `/secrets/` tree with files ending with `.secret` instead of `.txt` with the appropriate secret. 
-* Duplicate `.env.example` to `.env`, replacing vars as needed
+* Duplicate `.env.example` to `.env`, replacing vars as needed. This is both in the root folder, as well as the base of each system you want to use. 
+* If using prometheus and node exporters, set a `prometheus-grafana/prometheus/targets.json` based off `targets.json.example`
+* If using prometheus / grafana, set a `prometheus-grafana/secrets/grafana-admin-password.secret` based on `grafana-admin-password.txt`
+
 
 # Approach
 

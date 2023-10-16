@@ -1,0 +1,8 @@
+# Top level config for all the services
+# At the moment it's empty as we don't have any shared config lol
+
+name: homebots
+
+include:
+  - ./node-exporter/compose.node-exporter.yml
+  - ./tailscale/compose.tailscale.yml

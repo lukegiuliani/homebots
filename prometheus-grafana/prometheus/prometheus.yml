@@ -25,8 +25,9 @@ scrape_configs:
     - localhost:9090
 
 - job_name: node
-  static_configs:
-    - targets: ['local-node-exporter:9100']
+  file_sd_configs:
+  - files:
+    - 'targets.json'
 
 - job_name: 'unifi-poller'
   scrape_interval: 30s
