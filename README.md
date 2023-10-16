@@ -9,6 +9,7 @@
 * Sort out SSL for the line above lol. (maybe service.host.domain.com?)
 * Fix `Error response from daemon: Address already in use`
 * Fix (very occasional): `Error response from daemon: Pool overlaps with other one on this address space`
+* Convert `pihole`s admin password to use docker secrets instead of a file. 
 
 # Approach
 

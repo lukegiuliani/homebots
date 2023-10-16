@@ -32,8 +32,8 @@ services:
       - REV_SERVER_TARGET=${PIHOLE_ROUTER_IP}
       - REV_SERVER_DOMAIN=${PIHOLE_NETWORK_DOMAIN}
       - REV_SERVER_CIDR=${PIHOLE_REVERSE_DNS}
-      - ServerIP=${PIHOLE_HOST_IP}
-      - ServerIPv6=${PIHOLE_HOST_IPV6}
+      # - FTLCONF_LOCAL_IPV4=${PIHOLE_HOST_IP}
+      # - FTLCONF_LOCAL_IPV6=${PIHOLE_HOST_IPV6}
     dns:
       - 127.0.0.1 # "Sets your container's resolve settings to localhost so it can resolve DHCP hostnames [...]" - github.com/pi-hole/docker-pi-hole
       - 1.1.1.1 # Backup server
@@ -55,10 +55,10 @@ services:
 
     labels:
       - "traefik.enable=true"
+      - "traefik.docker.network=homebots_traefik-net"
       - "traefik.http.routers.pihole.rule=Host(`pihole.${HOSTNAME}`)"
       - "traefik.http.routers.pihole.entrypoints=web"
       - "traefik.http.services.pihole.loadbalancer.server.port=80"
-      - "traefik.docker.network=homebots_traefik-net"
 
       # - "traefik.http.routers.pihole.middlewares=pihole-admin"
       # - "traefik.http.middlewares.pihole-admin.addprefix.prefix='/admin'"
