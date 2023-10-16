@@ -36,16 +36,24 @@ services:
       - GF_SECURITY_ADMIN_USER=admin
       - GF_SECURITY_ADMIN_PASSWORD__FILE=/run/secrets/grafana-admin-password
       - GF_INSTALL_PLUGINS=grafana-piechart-panel
+      - GF_SERVER_ROOT_URL=http://${HOSTNAME}/grafana
+      - GF_SERVER_SERVE_FROM_SUB_PATH=true
     secrets:
       - grafana-admin-password
     volumes:
       - ./grafana/provisioning:/etc/grafana/provisioning
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.grafana.rule=Host(`grafana.${HOSTNAME}`)"
+      - "traefik.docker.network=homebots_traefik-net"
+
+      - "traefik.http.routers.grafana.rule=Host(`${HOSTNAME}`) && PathPrefix(`/grafana`)"
       - "traefik.http.routers.grafana.entrypoints=web"
       - "traefik.http.services.grafana.loadbalancer.server.port=3000"
-      - "traefik.docker.network=homebots_traefik-net"
+
+      # - traefik.http.routers.grafana-dev.rule=Host(`localhost`) && PathPrefix(`/grafana`)
+      # - traefik.http.routers.grafana-dev.entrypoints=web
+      # - traefik.http.services.grafana-dev.loadbalancer.server.port=3000
+
     networks:
       - traefik-net
       - prometheus-net

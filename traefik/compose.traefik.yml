@@ -18,9 +18,13 @@ services:
 
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.traefik.rule=Host(`traefik.${HOSTNAME}`)"
+      - "traefik.http.routers.traefik.rule=Host(`${HOSTNAME}`) && (PathPrefix(`/traefik`) || PathPrefix(`/dashboard`) || PathPrefix(`/api`))"
       - "traefik.http.routers.traefik.entrypoints=web"
       - "traefik.http.services.traefik.loadbalancer.server.port=8080"
+
+      - "traefik.http.routers.traefik.middlewares=traefik-strip"
+        # specific middleware for traefik (it enables the dashboard at mydomain.com/traefik)
+      - "traefik.http.middlewares.traefik-strip.stripprefix.prefixes=/traefik"
 
     networks:
       - traefik-net

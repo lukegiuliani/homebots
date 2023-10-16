@@ -6,8 +6,9 @@
 
 # TODO:
 
-* Add in hardcoded dns records for pihole so that http://{service}.{hostname} (grafana, pihole, traefik, prometheus) works. 
 * Sort out SSL for the line above lol. (maybe service.host.domain.com?)
+* Fix `Error response from daemon: Address already in use`
+* Fix (very occasional): `Error response from daemon: Pool overlaps with other one on this address space`
 
 # Approach
 
