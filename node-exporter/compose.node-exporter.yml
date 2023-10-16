@@ -21,3 +21,6 @@ services:
       - 9100:9100
     pid: host
     restart: unless-stopped
+    networks:
+      - prometheus-net # so prometheus can talk to it. 
+

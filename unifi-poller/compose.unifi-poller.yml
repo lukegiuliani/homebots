@@ -17,3 +17,5 @@ services:
       UP_UNIFI_DEFAULT_USER: ${UNIFI_DEFAULT_USER}
       UP_UNIFI_DEFAULT_PASS: ${UNIFI_DEFAULT_PASS}
       UP_UNIFI_DEFAULT_URL: ${UNIFI_DEFAULT_URL}
+    networks:
+      - prometheus-net

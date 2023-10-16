@@ -16,6 +16,16 @@ services:
     volumes:
       - ./prometheus:/etc/prometheus
       - prom_data:/prometheus
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.prometheus.rule=Host(`prometheus.${HOSTNAME}`)"
+      - "traefik.http.routers.prometheus.entrypoints=web"
+      - "traefik.http.services.prometheus.loadbalancer.server.port=9090"
+      - "traefik.docker.network=homebots_traefik-net"
+    networks:
+      - prometheus-net
+      - traefik-net
+
   grafana:
     image: grafana/grafana
     container_name: grafana
@@ -30,11 +40,18 @@ services:
       - grafana-admin-password
     volumes:
       - ./grafana/provisioning:/etc/grafana/provisioning
-
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.grafana.rule=Host(`grafana.${HOSTNAME}`)"
       - "traefik.http.routers.grafana.entrypoints=web"
+      - "traefik.http.services.grafana.loadbalancer.server.port=3000"
+      - "traefik.docker.network=homebots_traefik-net"
+    networks:
+      - traefik-net
+      - prometheus-net
 
 volumes:
   prom_data:
+
+networks:
+  prometheus-net:

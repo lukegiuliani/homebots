@@ -22,8 +22,8 @@ services:
       - "53:53/tcp"
       - "53:53/udp"
       - "67:67/udp"
-      - "8888:80/tcp"
-      - "8443:443/tcp"
+      # - "8888:80/tcp"
+      # - "8443:443/tcp"
     environment:
       - TZ=${TIMEZONE}
       - PIHOLE_DNS_=172.20.0.2#5054;1.1.1.1 # referencing by name results in "Invalid IP detected in PIHOLE_DNS_: cloudflared#5054"
@@ -37,6 +37,13 @@ services:
     dns:
       - 127.0.0.1 # "Sets your container's resolve settings to localhost so it can resolve DHCP hostnames [...]" - github.com/pi-hole/docker-pi-hole
       - 1.1.1.1 # Backup server
+    # I'm just including an opinionated set here. It's my setup :D
+    extra_hosts:
+      - "grafana.${HOSTNAME}:${HOST_IP}"
+      - "pihole.${HOSTNAME}:${HOST_IP}"
+      - "traefik.${HOSTNAME}:${HOST_IP}"
+      - "prometheus.${HOSTNAME}:${HOST_IP}"
+
     volumes: # store your data between container upgrades
       - "/etc/pihole/:/etc/pihole/"
       - "/etc/dnsmasq.d/:/etc/dnsmasq.d/"
@@ -47,6 +54,17 @@ services:
     restart: always
     networks:
       - dns-net
+      - traefik-net # so we can route to the web portal
+
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.pihole.rule=Host(`pihole.${HOSTNAME}`)"
+      - "traefik.http.routers.pihole.entrypoints=web"
+      - "traefik.http.services.pihole.loadbalancer.server.port=80"
+      - "traefik.docker.network=homebots_traefik-net"
+
+      # - "traefik.http.routers.pihole.middlewares=pihole-admin"
+      # - "traefik.http.middlewares.pihole-admin.addprefix.prefix='/admin'"
 
   pihole-exporter:
     container_name: pihole-exporter
@@ -62,7 +80,7 @@ services:
       - PORT=9617
     networks:
       - dns-net # so it can talk to pi hole
-      - default # so prometheus can talk to it. # TODO: Put all the prometheus scraping on it's own thing. 
+      - prometheus-net # so prometheus can talk to it. 
 
 networks:
   dns-net:
