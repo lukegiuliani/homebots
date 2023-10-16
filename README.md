@@ -1,5 +1,3 @@
-README.md
-
 # Getting started TL;DR:
 
 * Duplicate `.env.example` to `.env`, replacing vars as needed. This is both in the root folder, as well as the base of each system you want to use (e.g., Tailscale)
@@ -45,7 +43,7 @@ TODO: A convenience script to help with this?
 
 ## Prometheus / Grafana
 
-Based of (this awesome source)[https://github.com/docker/awesome-compose/blob/master/prometheus-grafana/compose.yaml], modified to use docker secrets and tailscale for grafana. 
+Based of [this awesome source](https://github.com/docker/awesome-compose/blob/master/prometheus-grafana/compose.yaml), modified to use docker secrets and tailscale for grafana. 
 
 ### Importing dashboards
 
