@@ -39,10 +39,7 @@ services:
       - 1.1.1.1 # Backup server
     # I'm just including an opinionated set here. It's my setup :D
     extra_hosts:
-      - "grafana.${HOSTNAME}:${HOST_IP}"
       - "pihole.${HOSTNAME}:${HOST_IP}"
-      - "traefik.${HOSTNAME}:${HOST_IP}"
-      - "prometheus.${HOSTNAME}:${HOST_IP}"
 
     volumes: # store your data between container upgrades
       - "/etc/pihole/:/etc/pihole/"

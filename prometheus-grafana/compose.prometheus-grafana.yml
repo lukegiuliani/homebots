@@ -10,6 +10,9 @@ services:
     container_name: prometheus
     command:
       - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--web.external-url=/prometheus/'
+      - '--web.route-prefix=/prometheus/'
+
     ports:
       - 9090:9090
     restart: unless-stopped
@@ -18,10 +21,10 @@ services:
       - prom_data:/prometheus
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.prometheus.rule=Host(`prometheus.${HOSTNAME}`)"
+      - "traefik.docker.network=homebots_traefik-net"
+      - "traefik.http.routers.prometheus.rule=Host(`${HOSTNAME}`) && PathPrefix(`/prometheus`)"
       - "traefik.http.routers.prometheus.entrypoints=web"
       - "traefik.http.services.prometheus.loadbalancer.server.port=9090"
-      - "traefik.docker.network=homebots_traefik-net"
     networks:
       - prometheus-net
       - traefik-net
