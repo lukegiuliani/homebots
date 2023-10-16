@@ -2,10 +2,15 @@ README.md
 
 # Getting started TL;DR:
 
-* Duplicate `.env.example` to `.env`, replacing vars as needed. This is both in the root folder, as well as the base of each system you want to use. 
+* Duplicate `.env.example` to `.env`, replacing vars as needed. This is both in the root folder, as well as the base of each system you want to use (e.g., Tailscale)
 * If using prometheus and node exporters, set a `prometheus-grafana/prometheus/targets.json` based off `targets.json.example`
 * If using prometheus / grafana, set a `prometheus-grafana/secrets/grafana-admin-password.secret` based on `grafana-admin-password.txt`
 
+# TODO:
+
+* Sort out graph imports for grafana so that pihole works. 
+* Add in hardcoded dns records for pihole so that http://{service}.{hostname} (grafana, pihole, traefik, prometheus) works. 
+* Sort out SSL for the line above lol. (maybe service.host.domain.com?)
 
 # Approach
 
@@ -25,9 +30,9 @@ The structure is that all the `compose.yml`s exist in the root folder (because o
         prometheus/
         grafana/
     pihole/
-        compose.pihole.yml
         .env
-        pihole.conf
+        compose.pihole.yml
+        ...
 ```
 
 # Secrets
@@ -36,7 +41,7 @@ We are using docker secrets. There are stub files broken out by service in the s
 
 TODO: A convenience script to help with this? 
 
-# Service specific readme
+# Service specific Readme
 
 ## Prometheus / Grafana
 
@@ -47,8 +52,6 @@ Based of (this awesome source)[https://github.com/docker/awesome-compose/blob/ma
 The easiest way to do this is to import them from inside grafana, configure them how you like, then go and copy the resulting json to a {template}.json file in `prometheus-grafana/grafana/provisioning/dashboards`
 
 ## Tailscale
-
-This needs testing on a proper linux machine. Hard to see on a mac.
 
 A few things.
 
