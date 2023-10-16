@@ -6,7 +6,6 @@
 
 # TODO:
 
-* Sort out graph imports for grafana so that pihole works. 
 * Add in hardcoded dns records for pihole so that http://{service}.{hostname} (grafana, pihole, traefik, prometheus) works. 
 * Sort out SSL for the line above lol. (maybe service.host.domain.com?)
 

@@ -25,6 +25,7 @@ services:
     environment:
       - GF_SECURITY_ADMIN_USER=admin
       - GF_SECURITY_ADMIN_PASSWORD__FILE=/run/secrets/grafana-admin-password
+      - GF_INSTALL_PLUGINS=grafana-piechart-panel
     secrets:
       - grafana-admin-password
     volumes:
