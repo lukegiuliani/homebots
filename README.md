@@ -58,3 +58,23 @@ A few things.
 * If you remove a machine or expire a key, and you are using persistent storage, you need to kill the state as well as replace the key for it to work. Otherwise (I'm guessing) it conflicts between the fact that the state files were made with an old key, and you're now trying to use a new one. 
 * Incidentally, wiping the state folder is also the best way to get rid of the incrementing suffixes problem if you keep cycling for some reason. 
 * The fact that the state folder is owned by root seems scary, but actually isn't. 
+
+# Deployment
+
+## Docker contexts? TL;DR: No.
+
+Can we use docker contexts?
+
+Idea:
+
+* Do basical machine set up essentially manually:
+** Install docker
+** Get rid of `systemd-resolved` on ubuntu per [pihole docker documentation](https://github.com/pi-hole/docker-pi-hole/#installing-on-ubuntu-or-fedora).
+
+Then use docker contexts:
+
+```bash
+docker context create remote --docker "host=ssh://user@remotemachine"
+```
+
+*I suspect this isn't goint work as we are using secrets, referencing files, and those files don't exist on the destination machine, and getting them there is non-trivial.*
