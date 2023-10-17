@@ -2,3 +2,5 @@
 *.env
 targets.json
 tailscale/tailscale/*
+inventory.ini
+config.yml

@@ -1,0 +1,52 @@
+---
+- name: Do some setup and collect credentials
+  hosts: opconnect
+  # gather_facts: no
+  environment:
+    OP_CONNECT_HOST: http://localhost:8080
+  collections:
+    - onepassword.connect
+  tasks:
+    - name: Load configuration (with defaults from example file).
+      ansible.builtin.include_vars: "{{ item }}"
+      loop:
+        - example.config.yml
+        - config.yml
+
+    - name: Find the item with the label "Super Secret Web Login" in the vault "Homelab"
+      item_info:
+        token: "{{ op_jwt_token }}"
+        item: Super Secret Web Login
+        vault: Homelab
+      no_log: true
+      register: op_item
+
+- name: Configure you a HomeBot.
+  hosts: homebots
+  # gather_facts: no
+  # become: true
+
+  tasks:
+    - name: Load configuration (with defaults from example file).
+      ansible.builtin.include_vars: "{{ item }}"
+      loop:
+        - example.config.yml
+        - config.yml
+
+    - name: Ensure apt cache is up to date.
+      become: true
+      ansible.builtin.apt:
+        update_cache: true
+        cache_valid_time: 3600
+      when:
+        - ansible_facts.os_family == "Debian"
+
+    - name: Setup Docker.
+      become: true
+      ansible.builtin.import_tasks: ansible/docker.yml
+
+    - name: Create a dummy secret
+      copy: 
+        dest: "{{ config_dir }}/look-ma-im-a-secret"
+        content: "ADMIN_PASSWORD_FOR_HAXXORS={{ hostvars.localhost.op_item.op_item.fields.password.value }}"
+        mode: 0640
