@@ -35,6 +35,37 @@ The structure is that all the `compose.yml`s exist in the root folder (because o
         ...
 ```
 
+# Config
+
+There are two modes or working - local development, and then deployment. 
+
+* Local development
+    * .env files
+    * Secrets are in local conf files
+    * The workflow is to essentially do docker compose loops: 
+
+```
+docker compose -f compose.all.yml down --remove-orphans && docker compose -f compose.all.yml up -d
+```
+
+* Deployment:
+    * .env.prod files that are amended by 1Password lookups. 
+    * Secrets are taken from 1password (therefore you need to have those containers running)
+    * You deploy using ansible:
+
+```
+ansible-playbook main.yml
+```
+
+Credentials:
+
+| Item           | Dev                      | Prod                      |
+|----------------|--------------------------|---------------------------|
+| Tailscale Key  | .env file                | .env.prod amended by 1p   |
+| Grafana login  | local .secrets file      | 1P written to .secrets    |
+| Unifi pass     | unifi-poller/.env        | .env.prod amended by 1p   |
+
+
 # Secrets
 
 We are using docker secrets. There are stub files broken out by service in the secrets folder, you need to dupe each `.txt` file, change the suffix to `.secret` and put in a more secure password. This is so we can keep track of the secrets required, without having the actual secrets in the repo. 
@@ -90,6 +121,12 @@ Then you'd deploy this all with a few steps:
 * Customise env vars:
     * TODO: Write this list. 
 * Run the playbook: `ansible-playbook deploy.yml`
+
+## Deployment sequence:
+
+1. Collect secrets from 1Password. 
+2. Check out / update the repo from github. 
+3. Copy the relevant .env.prod files, replacing
 
 ## Docker contexts? TL;DR: No.
 
