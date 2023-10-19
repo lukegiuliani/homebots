@@ -23,7 +23,9 @@ services:
       - "traefik.enable=true"
       - "traefik.docker.network=homebots_traefik-net"
       - "traefik.http.routers.prometheus.rule=Host(`${HOSTNAME}`) && PathPrefix(`/prometheus`)"
-      - "traefik.http.routers.prometheus.entrypoints=web"
+      # We don't need to preserve the http endpoint here as internal docker routing is post traefik
+      - "traefik.http.routers.prometheus.entrypoints=websecure"
+      - "traefik.http.routers.prometheus.tls=true"
       - "traefik.http.services.prometheus.loadbalancer.server.port=9090"
     networks:
       - prometheus-net
@@ -39,7 +41,7 @@ services:
       - GF_SECURITY_ADMIN_USER=admin
       - GF_SECURITY_ADMIN_PASSWORD__FILE=/run/secrets/grafana-admin-password
       - GF_INSTALL_PLUGINS=grafana-piechart-panel
-      - GF_SERVER_ROOT_URL=http://${HOSTNAME}/grafana
+      - GF_SERVER_ROOT_URL=https://${HOSTNAME}/grafana
       - GF_SERVER_SERVE_FROM_SUB_PATH=true
     secrets:
       - grafana-admin-password
@@ -50,7 +52,8 @@ services:
       - "traefik.docker.network=homebots_traefik-net"
 
       - "traefik.http.routers.grafana.rule=Host(`${HOSTNAME}`) && PathPrefix(`/grafana`)"
-      - "traefik.http.routers.grafana.entrypoints=web"
+      - "traefik.http.routers.grafana.entrypoints=websecure"
+      - "traefik.http.routers.grafana.tls=true"
       - "traefik.http.services.grafana.loadbalancer.server.port=3000"
 
       # - traefik.http.routers.grafana-dev.rule=Host(`localhost`) && PathPrefix(`/grafana`)

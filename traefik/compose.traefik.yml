@@ -9,17 +9,32 @@ services:
       - "--api.insecure=true"
       - "--providers.docker=true"
       - "--providers.docker.exposedbydefault=false"
-      # - "--providers.docker.network=traefik-net"
+      # - "--providers.docker.network=homebots_traefik-net"
+
       - "--entrypoints.web.address=:80"
+      - '--entrypoints.web.http.redirections.entryPoint.to=websecure'
+      - '--entrypoints.web.http.redirections.entryPoint.scheme=https'
+      - '--entrypoints.websecure.address=:443'
+
+      # reenable this to try teh cloudflares.
+      # - '--certificatesresolvers.le.acme.dnschallenge=true'
+      # - '--certificatesresolvers.le.acme.dnschallenge.provider=cloudflare'
+
+    environment:
+      # you may choose to use secrets instead of environment variables like this
+      - CF_DNS_API_TOKEN=${CF_DNS_API_TOKEN}
+
     ports:
       - "80:80"
+      - "443:443"
     volumes:
       - "/var/run/docker.sock:/var/run/docker.sock:ro"
 
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.traefik.rule=Host(`${HOSTNAME}`) && (PathPrefix(`/traefik`) || PathPrefix(`/dashboard`) || PathPrefix(`/api`))"
-      - "traefik.http.routers.traefik.entrypoints=web"
+      - "traefik.http.routers.traefik.entrypoints=websecure"
+      - "traefik.http.routers.traefik.tls=true"
       - "traefik.http.services.traefik.loadbalancer.server.port=8080"
 
       - "traefik.http.routers.traefik.middlewares=traefik-strip"
