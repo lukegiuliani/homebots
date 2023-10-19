@@ -57,7 +57,8 @@ services:
       - "traefik.enable=true"
       - "traefik.docker.network=homebots_traefik-net"
       - "traefik.http.routers.pihole.rule=Host(`pihole.${HOSTNAME}`)"
-      - "traefik.http.routers.pihole.entrypoints=web"
+      - "traefik.http.routers.pihole.entrypoints=websecure"
+      - "traefik.http.routers.pihole.tls=true"
       - "traefik.http.services.pihole.loadbalancer.server.port=80"
 
       # - "traefik.http.routers.pihole.middlewares=pihole-admin"
