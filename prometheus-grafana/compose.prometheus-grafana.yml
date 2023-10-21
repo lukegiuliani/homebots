@@ -1,9 +1,5 @@
 # Inspired by https://github.com/docker/awesome-compose/blob/master/prometheus-grafana/compose.yaml
 
-secrets:
-  grafana-admin-password:
-    file: ./secrets/grafana-admin-password.secret
-
 services:
   prometheus:
     image: prom/prometheus
@@ -39,12 +35,10 @@ services:
     restart: unless-stopped
     environment:
       - GF_SECURITY_ADMIN_USER=admin
-      - GF_SECURITY_ADMIN_PASSWORD__FILE=/run/secrets/grafana-admin-password
+      - GF_SECURITY_ADMIN_PASSWORD=${GRAFANA_GF_SECURITY_ADMIN_PASSWORD}
       - GF_INSTALL_PLUGINS=grafana-piechart-panel
       - GF_SERVER_ROOT_URL=https://${HOSTNAME}/grafana
       - GF_SERVER_SERVE_FROM_SUB_PATH=true
-    secrets:
-      - grafana-admin-password
     volumes:
       - ./grafana/provisioning:/etc/grafana/provisioning
     labels:

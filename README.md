@@ -1,16 +1,13 @@
 # Getting started TL;DR:
 
-* Duplicate `.env.example` to `.env`, replacing vars as needed. This is both in the root folder, as well as the base of each system you want to use (e.g., Tailscale)
+* Duplicate `.env.example` to `.env`, replacing vars as needed. You only have to do this for the systems you are going to spin up. 
 * If using prometheus and node exporters, set a `prometheus-grafana/prometheus/targets.json` based off `targets.json.example`
-* If using prometheus / grafana, set a `prometheus-grafana/secrets/grafana-admin-password.secret` based on `grafana-admin-password.txt`
 
 # TODO:
 
 * Sort out SSL for the line above lol. (maybe service.host.domain.com?)
 * Fix `Error response from daemon: Address already in use`
 * Fix (very occasional): `Error response from daemon: Pool overlaps with other one on this address space`
-* Convert `pihole`s admin password to use docker secrets instead of a file. 
-* Sort out the fact that there are about a million different spots for .env vars, and secrets: Move all the env vars into the root folder. Too hard otherwise. 
 
 # Approach
 
@@ -71,12 +68,11 @@ Two ways of accessing services. For development, we access at localhost over ssl
 
 For deployment, We're going to use a wildcard cert for the domain, and route the services at `http://host.domain.com/service`. We'll use internal dns on the pihole to resolve to an internal IP, there'll be no listing on public internet. We'll provision that cert via traefik's let's encrypt module, but note that means we probably need to ensure that's only done on one host.
 
-
 # Secrets
 
-We are using docker secrets. There are stub files broken out by service in the secrets folder, you need to dupe each `.txt` file, change the suffix to `.secret` and put in a more secure password. This is so we can keep track of the secrets required, without having the actual secrets in the repo. 
+I wanted to use docker secrets here, but they just aren't supported by enough images (the docker file has to include typically a `__file` reference so the image knows where to look for the secret, which is different from accessing an env var). So rather than have a mix of secrets and `.env` vars, we're just falling back to `.env` vars for now. Later when docker secrets are more well supported we can do that. 
 
-TODO: A convenience script to help with this? 
+> nb: as of this commit, only grafand and pihole support the `__FILE` variant.
 
 # Service specific Readme
 
