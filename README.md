@@ -1,7 +1,13 @@
 # Getting started TL;DR:
 
+## Local Dev:
+
 * Duplicate `.env.example` to `.env`, replacing vars as needed. You only have to do this for the systems you are going to spin up. 
 * If using prometheus and node exporters, set a `prometheus-grafana/prometheus/targets.json` based off `targets.json.example`
+
+## Deployment:
+
+
 
 # TODO:
 
@@ -110,11 +116,13 @@ Idea:
     mode: 0640
 ```
 
-* For this we need to run 1Password Connect on the localmachine. [Here's the ansible specific setup](https://github.com/1Password/ansible-onepasswordconnect-collection). And here's the [1Password doco for setting it up in the account](https://developer.1password.com/docs/connect/). 
+We can use 1Password service accounts here, and the command line tool, so we don't have to mess around with 1password connect. 
+
+<!-- * For this we need to run 1Password Connect on the localmachine. [Here's the ansible specific setup](https://github.com/1Password/ansible-onepasswordconnect-collection). And here's the [1Password doco for setting it up in the account](https://developer.1password.com/docs/connect/). 
 ** Essentially, download the `password-credentials.json` file into the 1password folder and `docker compose up``.
 
 
-Then you'd deploy this all with a few steps:
+Then you'd deploy this all with a few steps: -->
 
 * Install Ansible: `sudo apt-get install -y python3-pip`
 * Clone the repo: `git clone https://github.com/lukegiuliani/homebots.git`. Enter the directory: `cd homebots`.

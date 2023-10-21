@@ -8,6 +8,6 @@ include:
   - ./prometheus-grafana/compose.prometheus-grafana.yml
   - ./node-exporter/compose.node-exporter.yml
   - ./unifi-poller/compose.unifi-poller.yml
-  - ./tailscale/compose.tailscale.yml
+  # - ./tailscale/compose.tailscale.yml
   - ./pihole/compose.pihole.yml
 
