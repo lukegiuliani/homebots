@@ -22,7 +22,7 @@ services:
 
     environment:
       # you may choose to use secrets instead of environment variables like this
-      - CF_DNS_API_TOKEN=${CF_DNS_API_TOKEN}
+      - CF_DNS_API_TOKEN=${TRAEFIK_CF_DNS_API_TOKEN}
 
     ports:
       - "80:80"
