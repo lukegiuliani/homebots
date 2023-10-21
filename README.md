@@ -65,6 +65,12 @@ Credentials:
 | Grafana login  | local .secrets file      | 1P written to .secrets    |
 | Unifi pass     | unifi-poller/.env        | .env.prod amended by 1p   |
 
+# SSL 
+
+Two ways of accessing services. For development, we access at localhost over ssl, and enabling this browser flag makes the check go away: chrome://flags/#allow-insecure-localhost / brave://flags/#allow-insecure-localhost. It's still red, but at least you don't have to click through. 
+
+For deployment, We're going to use a wildcard cert for the domain, and route the services at `http://host.domain.com/service`. We'll use internal dns on the pihole to resolve to an internal IP, there'll be no listing on public internet. We'll provision that cert via traefik's let's encrypt module, but note that means we probably need to ensure that's only done on one host.
+
 
 # Secrets
 
